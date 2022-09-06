@@ -10,18 +10,7 @@ services:
   pyserv:
     networks:
       - example_net
-    image: python:alpine3.15
-    command: ['sh', '-c', "python -m http.server -d /data"]
-    volumes:
-      - my_vol:/data
-    depends_on:
-      write:
-        condition: service_completed_successfully
-  write:
-    image: alpine
-    command: ['sh', '-c', "touch data/example_`date +'%H_%M_%S'`"]
-    volumes:
-      - my_vol:/data
+    build: repo_imgs
 
 volumes:
   my_vol:
