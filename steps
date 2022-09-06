@@ -1,3 +1,5 @@
 1. Create network
 2. Attach ngrok
 3. Attach python server with volume
+
+4. Docker compose

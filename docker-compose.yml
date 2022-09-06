@@ -1,0 +1,29 @@
+services:
+  ngrok:
+    image: ngrok/ngrok
+    env_file: secret.secret
+    networks:
+      - example_net
+    command: ['http', 'pyserv:8000']
+    ports:
+      - 4040:4040
+  pyserv:
+    networks:
+      - example_net
+    image: python:alpine3.15
+    command: ['sh', '-c', "python -m http.server -d /data"]
+    volumes:
+      - my_vol:/data
+    depends_on:
+      write:
+        condition: service_completed_successfully
+  write:
+    image: alpine
+    command: ['sh', '-c', "touch data/example_`date +'%H_%M_%S'`"]
+    volumes:
+      - my_vol:/data
+
+volumes:
+  my_vol:
+networks:
+  example_net:
